@@ -50,8 +50,8 @@ public class WorldDB {
 					+"Izvele: ");
 			String c = scan.nextLine().trim();
 			switch(c) {
-			case "1" -> System.out.println("Jataisa select metode");
-			//selectOp.select(con, table);
+			case "1" ->
+			selectOp.select(con, table);
 			
 			case "0" -> back = true;
 			default -> System.out.println("Nepareiza izvele.");
