@@ -66,6 +66,8 @@ public class WorldDB {
 			System.out.println("Izveidots savienojums ar datu bazi World!");
 			
 			SelectOperation selectOp = new SelectOperation();
+			ViewManager viewManager = new ViewManager(con, selectOp, scan);
+			
 			
 			boolean running = true;
 		
@@ -87,7 +89,8 @@ public class WorldDB {
 				}
 					
 				case"2"->
-					System.out.println("Bus skati...");
+					viewManager.showViewsMenu();
+					
 				
 				
 				case"0" -> running = false;
