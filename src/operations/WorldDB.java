@@ -38,7 +38,7 @@ public class WorldDB {
 		}
 	}
 	private static void tableMenu(
-		String table, SelectOperation selectOp) {
+		String table, SelectOperation selectOp, InsertOperation insertOp) {
 		boolean back = false;
 		while(!back) {
 			System.out.println("\n--- " + table.toUpperCase()+ " ---\n"
@@ -52,7 +52,8 @@ public class WorldDB {
 			switch(c) {
 			case "1" ->
 			selectOp.select(con, table);
-			
+			case"2"->
+			insertOp.insert(con, table);
 			case "0" -> back = true;
 			default -> System.out.println("Nepareiza izvele.");
 			}
@@ -67,7 +68,7 @@ public class WorldDB {
 			
 			SelectOperation selectOp = new SelectOperation();
 			ViewManager viewManager = new ViewManager(con, selectOp, scan);
-			
+			InsertOperation insertOp = new InsertOperation();
 			
 			boolean running = true;
 		
@@ -84,7 +85,7 @@ public class WorldDB {
 				case "1" -> {
 					String table = ChooseTable();
 					if(!table.equals("exit")) {
-						tableMenu(table, selectOp);
+						tableMenu(table, selectOp, insertOp);
 					}
 				}
 					
