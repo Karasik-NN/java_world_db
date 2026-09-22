@@ -20,25 +20,26 @@ public class WorldDB {
 			System.out.println("\n--- TABULAS ---\n"+ RESET
 					+"1. City\n" 
 					+"2. Country\n"
-					+"3.CountryLanguage\n"
+					+"3. CountryLanguage\n"
 					+"0. Atpakal\n"
 					+"Izvelies tabulu: ");
 			String c = scan.nextLine().trim();
 			
 			return switch(c) {
-			case "1" -> "city";
-			case "2" -> "country";
-			case "3" -> "countrylanguage";
-			case "0" -> "exit";
-			default -> {
-				System.out.println("Nepareiza izvele.");
-				yield "exit";
-			}
+				case "1" -> "city";
+				case "2" -> "country";
+				case "3" -> "countrylanguage";
+				case "0" -> "exit";
+				default -> {
+					System.out.println("Nepareiza izvele.");
+					yield "exit";
+				}
 			};	
 		}
 	}
+
 	private static void tableMenu(
-		String table, SelectOperation selectOp, InsertOperation insertOp) {
+		String table, SelectOperation selectOp, InsertOperation insertOp, UpdateOperation updateOp) {
 		boolean back = false;
 		while(!back) {
 			System.out.println("\n--- " + table.toUpperCase()+ " ---\n"
@@ -50,16 +51,14 @@ public class WorldDB {
 					+"Izvele: ");
 			String c = scan.nextLine().trim();
 			switch(c) {
-			case "1" ->
-			selectOp.select(con, table);
-			case"2"->
-			insertOp.insert(con, table);
-			case "0" -> back = true;
-			default -> System.out.println("Nepareiza izvele.");
+				case "1" -> selectOp.select(con, table);
+				case "2" -> insertOp.insert(con, table);
+				case "3" -> updateOp.update(con, table);
+				case "0" -> back = true;
+				default  -> System.out.println("Nepareiza izvele.");
 			}
 		}
 	}
-	
 	
 	public static void main(String[] args) {
 		try {
@@ -69,10 +68,10 @@ public class WorldDB {
 			SelectOperation selectOp = new SelectOperation();
 			ViewManager viewManager = new ViewManager(con, selectOp, scan);
 			InsertOperation insertOp = new InsertOperation();
+			UpdateOperation updateOp = new UpdateOperation();
 			
 			boolean running = true;
 		
-			
 			while(running) {
 				System.out.println("\n----- WORLD DB -----\n" 
 						+ RESET + GREEN +"1. Tabulas\n" + RESET
@@ -82,33 +81,22 @@ public class WorldDB {
 				String mainChoice = scan.nextLine().trim();
 				
 				switch(mainChoice) {
-				case "1" -> {
-					String table = ChooseTable();
-					if(!table.equals("exit")) {
-						tableMenu(table, selectOp, insertOp);
+					case "1" -> {
+						String table = ChooseTable();
+						if(!table.equals("exit")) {
+							tableMenu(table, selectOp, insertOp, updateOp);
+						}
 					}
-				}
-					
-				case"2"->
-					viewManager.showViewsMenu();
-					
-				
-				
-				case"0" -> running = false;
-				default ->
-				System.out.println(RED + "Nepareiza izvele!" + RESET);
-					
-				
+					case "2" -> viewManager.showViewsMenu();
+					case "0" -> running = false;
+					default  -> System.out.println(RED + "Nepareiza izvele!" + RESET);
 				}
 			}
 			con.close();
 			System.out.println("Savienojums ar DB slegts.");
 		} catch (SQLException e) {
-			System.out.println("DB kluda: " +e.getMessage());
+			System.out.println("DB kluda: " + e.getMessage());
 			e.printStackTrace();
 		}
-		
-		
 	}
-
 }

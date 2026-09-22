@@ -38,7 +38,7 @@ public class InsertOperation {
 			ps.setString(3, district);
 			ps.setInt(4, population);
 			int rows = ps.executeUpdate();
-			System.out.println("City tabula ievetotas "+ rows + "rindas");
+			System.out.println("City tabula ievetotas "+ rows + " rindas");
 		}
 		
 	}
