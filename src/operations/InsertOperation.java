@@ -12,7 +12,7 @@ public class InsertOperation {
 		switch(table) {
 		case "city"-> insertCity(con);
 		case "country"-> insertCountry(con);
-		//case "countrylanguage"-> insertCountryLanguage(con);
+		case "countrylanguage"-> insertCountryLanguage(con);
 		}
 	}catch(SQLException e) {
 		System.out.println("INSERT kluda:"+e.getMessage());
@@ -94,4 +94,28 @@ private void insertCountry(Connection con)throws SQLException{
 		}
 		
 	}
+private void insertCountryLanguage(Connection con)throws SQLException{
+	
+	System.out.println("Ievadi CountryCode (3 simboli)");
+	String Ccode = scan.nextLine();
+	System.out.println("Ievadi Valodu");
+	String valoda = scan.nextLine().trim().toUpperCase();
+	System.out.println("Noradi vai valoda ir oficiala(T vai F)");
+	String ofic = scan.nextLine();
+	System.out.println("Noradi procentus");
+	Double proc = scan.nextDouble();
+	scan.nextLine();
+	
+	String sql=
+			"INSERT INTO CountryLanguage(CountryCode, Language, IsOfficial, Percentage) VALUES(?,?,?,?)";
+	try(PreparedStatement ps = con.prepareStatement(sql)){
+		ps.setString(1,Ccode);
+		ps.setString(2, valoda);
+		ps.setString(3, ofic);
+		ps.setDouble(4, proc);
+		int rows = ps.executeUpdate();
+		System.out.println("City tabula ievetotas "+ rows + " rindas");
+	}
+	
+}
 }
