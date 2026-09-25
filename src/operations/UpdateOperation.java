@@ -13,7 +13,7 @@ public class UpdateOperation {
             switch(table) {
                 case "city" -> updateCity(con);
                 case "country" -> updateCountry(con);
-                // case "countrylanguage" -> updatecountrylanguage(con);
+                case "countrylanguage" -> updateCountrylanguage(con);
             }
         } catch(SQLException e) {
             System.out.println("UPDATE Kluda: " + e.getMessage());
@@ -98,8 +98,33 @@ private void updateCountry(Connection con)throws SQLException{
 			ps.setInt(12, kapitals);
 			ps.setString(13, code2);
 			int rows = ps.executeUpdate();
-			System.out.println("Country tabula ievetotas "+ rows + " rindas");
+			System.out.println("Country tabula atjaunotas "+ rows + " rindas");
 		}
 		
 	}
+
+private void updateCountrylanguage(Connection con)throws SQLException{
+	
+	System.out.println("Ievadi CountryCode (3 simboli)");
+	String Ccode = scan.nextLine();
+	System.out.println("Ievadi Valodu");
+	String valoda = scan.nextLine().trim().toUpperCase();
+	System.out.println("Noradi vai valoda ir oficiala(T vai F)");
+	String ofic = scan.nextLine();
+	System.out.println("Noradi procentus");
+	Double proc = scan.nextDouble();
+	scan.nextLine();
+	
+	String sql=
+			"UPDATE CountryLanguage SET Language = ?, IsOfficial = ?, Percentage = ? WHERE CountryCode = ?";
+	try(PreparedStatement ps = con.prepareStatement(sql)){
+		ps.setString(1, valoda);
+		ps.setString(2, ofic);
+		ps.setDouble(3, proc);
+		ps.setString(4,Ccode);
+		int rows = ps.executeUpdate();
+		System.out.println("CountryLanguage tabula atjaunotas "+ rows + " rindas");
+	}
+	
+}
 }

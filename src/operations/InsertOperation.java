@@ -114,7 +114,7 @@ private void insertCountryLanguage(Connection con)throws SQLException{
 		ps.setString(3, ofic);
 		ps.setDouble(4, proc);
 		int rows = ps.executeUpdate();
-		System.out.println("City tabula ievetotas "+ rows + " rindas");
+		System.out.println("CountryLanguage tabula ievetotas "+ rows + " rindas");
 	}
 	
 }
